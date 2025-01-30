@@ -33,7 +33,10 @@ export default function EditDetails() {
         </View>
       </View>
 
-      <View style={{height:350}} className="w-full flex flex-col items-center justify-between">
+      <View
+        style={{ height: 350 }}
+        className="w-full flex flex-col items-center justify-between"
+      >
         <View
           style={{ padding: 20, borderStyle: "dotted" }}
           className="w-[90%] flex items-center justify-center gap-5 border-2 border-gray-400 rounded-xl"
