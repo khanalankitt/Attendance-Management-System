@@ -8,7 +8,7 @@ import {
   Animated,
   ScrollView,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import "../global.css";
@@ -41,6 +41,19 @@ export default function HomePage() {
     "Seventh",
     "Eighth",
   ];
+
+  useEffect(() => {
+    const connectToDatabase = async () => {
+      try {
+        const response = await fetch("http://192.168.1.73:3300/");
+        const data = await response.json();
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    connectToDatabase();
+  }, []);
 
   return (
     <SafeAreaView
