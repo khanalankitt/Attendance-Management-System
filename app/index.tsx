@@ -1,33 +1,18 @@
 import {
-  Image,
   Pressable,
   StatusBar,
   StyleSheet,
   Text,
   View,
-  Animated,
   ScrollView,
+  Image,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import "../global.css";
 
 export default function HomePage() {
-  const [visible, setVisible] = useState<boolean>(false);
-  const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
-  const slideAnim = useRef(new Animated.Value(-280)).current;
-
-  const toggleSidebar = () => {
-    Animated.timing(slideAnim, {
-      toValue: visible ? -280 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      setVisible(!visible);
-      setOverlayVisible(!overlayVisible);
-    });
-  };
 
   const semesters = [
     "First A",
@@ -45,7 +30,7 @@ export default function HomePage() {
   useEffect(() => {
     const connectToDatabase = async () => {
       try {
-        const response = await fetch("http://192.168.1.73:3300/");
+        const response = await fetch("http://192.168.100.162:3300");
         const data = await response.json();
         console.log(data);
       } catch (err) {
@@ -60,57 +45,14 @@ export default function HomePage() {
       style={styles.container}
       className="flex items-center justify-center"
     >
-      <StatusBar backgroundColor="dark" />
+      <StatusBar barStyle="dark-content" />
 
       {/* Header */}
       <View className="h-20 w-full flex flex-row items-center justify-start gap-5 px-5 self-start border-b-2 border-gray-400">
-        <Pressable onPress={toggleSidebar}>
-          <Text className="text-2xl p-1 font-bold">☰</Text>
-        </Pressable>
+        <Image source={require("../assets/images/iconnobg.png")} style={{ width: 40, objectFit: "cover", height: 60, }} />
         <Text className="text-3xl font-bold">Attendance</Text>
       </View>
 
-      {/* Sidebar */}
-      <Animated.View
-        style={[
-          styles.sidebar,
-          {
-            transform: [{ translateX: slideAnim }],
-          },
-        ]}
-        className="flex flex-col items-center justify-start"
-      >
-        <Pressable
-          style={{ marginTop: 30 }}
-          className="flex items-center justify-center"
-          onPress={toggleSidebar}
-        >
-          <Text
-            style={{ marginLeft: 220 }}
-            className="text-2xl p-5 font-bold text-white "
-          >
-            ☰
-          </Text>
-        </Pressable>
-        <Text className="text-white text-3xl font-bold mt-5">Attendance</Text>
-
-        <Image
-          source={require("../assets/images/logo.png")}
-          style={{ width: 150, height: 150, marginTop: 10 }}
-          className="rounded-xl"
-        />
-        <Pressable
-          style={{ height: 50, width: "80%", backgroundColor: "white" }}
-          className="mt-5 rounded-xl flex items-center justify-center"
-        >
-          <Text className="text-xl text-black font-bold">Login as Admin</Text>
-        </Pressable>
-      </Animated.View>
-
-      {/* Overlay */}
-      {overlayVisible && (
-        <Pressable style={styles.overlay} onPress={toggleSidebar} />
-      )}
 
       {/* Main Content */}
 

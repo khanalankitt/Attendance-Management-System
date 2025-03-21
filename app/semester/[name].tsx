@@ -103,7 +103,7 @@ export default function SemesterPage() {
         <View className="flex flex-row items-center justify-center self-start gap-5">
           <Pressable
             className="flex items-center justify-center"
-            onPress={() => router.back()}
+            onPress={() => router.replace('/')}
           >
             <Text
               className="font-bold"
