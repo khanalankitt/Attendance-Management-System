@@ -7,71 +7,58 @@ export default function StudentReport() {
   const { name, subject } = useLocalSearchParams();
   return (
     <SafeAreaView style={styles.container}>
-      <View className="h-28 rounded-b-3xl w-full flex items-center mt-1 justify-center px-5">
-        <View className="flex flex-row items-center justify-center self-start gap-5">
-          <Pressable
-            className="flex items-center justify-center"
-            onPress={() => router.back()}
-          >
-            <Text
-              className="font-bold"
-              style={{ fontSize: 30, marginBottom: 10 }}
-            >
-              {"←"}
-            </Text>
+      <View style={styles.header}>
+        <View style={styles.headerRow}>
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
+            <Text style={styles.backButtonText}>{"←"}</Text>
           </Pressable>
-          <Text className="text-2xl font-bold">{`${name} (${subject})`}</Text>
+          <Text style={styles.headerText}>{`${name} (${subject})`}</Text>
         </View>
       </View>
 
-      <View className="h-32 w-full mt-5">
+      <View style={styles.cardContainer}>
         <Link
           asChild
-          className="w-full flex items-center justify-center"
+          style={styles.link}
           href={{
             pathname: "/calendar/calendar",
             params: { name, subject },
           }}
         >
           <Pressable>
-            <View
-              style={{ borderStyle: "dotted" }}
-              className="h-full w-[90%] rounded-xl border-2 border-gray-400 flex items-center justify-center"
-            >
-              <View className="w-[90%] flex flex-row justify-between">
-                <Text className="text-xl">Total Days</Text>
-                <Text className="text-xl font-bold">23</Text>
+            <View style={[styles.card, styles.dottedBorder]}>
+              <View style={styles.cardRow}>
+                <Text style={styles.cardText}>Total Days</Text>
+                <Text style={styles.cardBoldText}>23</Text>
               </View>
-              <View className="w-[90%] flex mt-4 flex-row justify-between">
-                <Text className="text-xl">Present Days</Text>
-                <Text className="text-xl font-bold">23</Text>
+              <View style={[styles.cardRow, styles.cardRowMargin]}>
+                <Text style={styles.cardText}>Present Days</Text>
+                <Text style={styles.cardBoldText}>23</Text>
               </View>
             </View>
           </Pressable>
         </Link>
       </View>
 
-      <View className="h-32 w-full flex items-center justify-center mt-5">
-        <View
-          style={{ borderStyle: "dotted" }}
-          className="h-full w-[90%] rounded-xl border-2 border-gray-400 flex  items-center justify-center gap-5"
-        >
-          <View className="w-[90%] flex items-center justify-between">
-            <Text className="text-2xl">Present Percentage</Text>
-            <Text className="text-3xl mt-3 font-bold">23%</Text>
+      <View style={styles.percentageContainer}>
+        <View style={[styles.card, styles.dottedBorder, styles.percentageCard]}>
+          <View style={styles.percentageContent}>
+            <Text style={styles.percentageText}>Present Percentage</Text>
+            <Text style={styles.percentageValue}>23%</Text>
           </View>
         </View>
       </View>
+
       <Link
-        className="w-[90%] mt-5 flex items-center justify-center"
+        style={styles.link}
         asChild
         href={{
           pathname: "/edit/editDetails",
           params: { name, subject },
         }}
       >
-        <Pressable className="h-14 rounded-xl flex items-center justify-center mt-5 bg-blue-500">
-          <Text className="text-2xl font-bold text-white">Edit</Text>
+        <Pressable style={styles.editButton}>
+          <Text style={styles.editButtonText}>Edit</Text>
         </Pressable>
       </Link>
     </SafeAreaView>
@@ -82,8 +69,111 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f1eee9",
-    display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  header: {
+    height: 112,
+    width: "100%",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    marginTop: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    gap: 20,
+  },
+  backButton: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  backButtonText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  cardContainer: {
+    height: 128,
+    width: "100%",
+    marginTop: 20,
+  },
+  link: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  card: {
+    height: "100%",
+    width: "90%",
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: "#d1d1d1",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dottedBorder: {
+    borderStyle: "dotted",
+  },
+  cardRow: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cardRowMargin: {
+    marginTop: 16,
+  },
+  cardText: {
+    fontSize: 18,
+  },
+  cardBoldText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  percentageContainer: {
+    height: 128,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  percentageCard: {
+    gap: 20,
+  },
+  percentageContent: {
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  percentageText: {
+    fontSize: 24,
+  },
+  percentageValue: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginTop: 12,
+  },
+  editButton: {
+    height: 56,
+    width: "90%",
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    backgroundColor: "#3b82f6",
+  },
+  editButtonText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#ffffff",
   },
 });

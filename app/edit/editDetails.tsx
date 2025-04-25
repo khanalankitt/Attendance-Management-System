@@ -16,51 +16,34 @@ export default function EditDetails() {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View className="h-28 rounded-b-3xl w-full flex items-center justify-center px-5">
-        <View className="flex flex-row items-center justify-center self-start gap-5">
-          <Pressable
-            className="flex items-center justify-center"
-            onPress={() => router.back()}
-          >
-            <Text
-              className="font-bold"
-              style={{ fontSize: 30, marginBottom: 10 }}
-            >
-              {"←"}
-            </Text>
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
+            <Text style={styles.backButtonText}>{"←"}</Text>
           </Pressable>
-          <Text className="text-2xl font-bold">{`${name} (${subject})`}</Text>
+          <Text style={styles.headerTitle}>{`${name} (${subject})`}</Text>
         </View>
       </View>
 
-      <View
-        style={{ height: 350 }}
-        className="w-full flex flex-col items-center justify-between"
-      >
-        <View
-          style={{ padding: 20, borderStyle: "dotted" }}
-          className="w-[90%] flex items-center justify-center gap-5 border-2 border-gray-400 rounded-xl"
-        >
-          <Text className="text-2xl">Present Attendance</Text>
+      <View style={styles.mainContent}>
+        <View style={styles.card}>
+          <Text style={styles.label}>Present Attendance</Text>
           <TextInput
-            className="border w-[90%] rounded-xl h-14 text-xl px-5 border-gray-400 font-semibold bg-[#f1f1f1]"
+            style={styles.input}
             value="23"
             editable={false}
           />
 
-          <Text className="text-2xl">New Attendance</Text>
+          <Text style={styles.label}>New Attendance</Text>
           <TextInput
             keyboardType="numeric"
             value={editedValue}
             onChangeText={(text) => setEditedValue(text.toString())}
             placeholder="eg. 10"
-            className="border w-[90%] rounded-xl h-14 px-5 font-bold text-xl bg-[#f1f1f1] border-gray-400"
+            style={styles.editableInput}
           />
-          <Pressable
-            className="h-14 w-[90%] rounded-xl flex items-center justify-center mt-5 bg-blue-500"
-            onPress={handleEditSubmit}
-          >
-            <Text className="text-2xl font-bold text-white">Save</Text>
+          <Pressable style={styles.saveButton} onPress={handleEditSubmit}>
+            <Text style={styles.saveButtonText}>Save</Text>
           </Pressable>
         </View>
       </View>
@@ -72,8 +55,93 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f1eee9",
-    display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  header: {
+    height: 112,
+    width: "100%",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  headerContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    gap: 20,
+  },
+  backButton: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  backButtonText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  mainContent: {
+    height: 350,
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  card: {
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+    borderWidth: 2,
+    borderColor: "#a0a0a0",
+    borderRadius: 16,
+    padding: 20,
+    borderStyle: "dotted",
+  },
+  label: {
+    fontSize: 24,
+  },
+  input: {
+    width: "90%",
+    height: 56,
+    borderRadius: 16,
+    fontSize: 20,
+    paddingHorizontal: 20,
+    fontWeight: "600",
+    backgroundColor: "#f1f1f1",
+    borderWidth: 1,
+    borderColor: "#a0a0a0",
+  },
+  editableInput: {
+    width: "90%",
+    height: 56,
+    borderRadius: 16,
+    fontSize: 20,
+    paddingHorizontal: 20,
+    fontWeight: "bold",
+    backgroundColor: "#f1f1f1",
+    borderWidth: 1,
+    borderColor: "#a0a0a0",
+  },
+  saveButton: {
+    height: 56,
+    width: "90%",
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    backgroundColor: "#3b82f6",
+  },
+  saveButtonText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#ffffff",
   },
 });

@@ -54,20 +54,6 @@ export default function SemesterPage() {
     { name: "Gita", rollNumber: 33 },
     { name: "Hemant", rollNumber: 34 },
     { name: "Irfan", rollNumber: 35 },
-    { name: "Jaya", rollNumber: 36 },
-    { name: "Kavita", rollNumber: 37 },
-    { name: "Lalit", rollNumber: 38 },
-    { name: "Meena", rollNumber: 39 },
-    { name: "Naveen", rollNumber: 40 },
-    { name: "Ojas", rollNumber: 41 },
-    { name: "Pankaj", rollNumber: 42 },
-    { name: "Qadir", rollNumber: 43 },
-    { name: "Rina", rollNumber: 44 },
-    { name: "Suresh", rollNumber: 45 },
-    { name: "Tara", rollNumber: 46 },
-    { name: "Uday", rollNumber: 47 },
-    { name: "Vimal", rollNumber: 48 },
-    { name: "Wasim", rollNumber: 49 },
   ];
   const [selectedRollNumbers, setSelectedRollNumbers] = useState<number[]>([]);
   const [subject, setSubject] = useState("");
@@ -91,7 +77,7 @@ export default function SemesterPage() {
       alert("Please select a subject");
       return;
     }
-    alert("Attendance saved succesfully");
+    alert("Attendance saved successfully");
     setSelectedRollNumbers([]);
   };
   return (
@@ -99,32 +85,19 @@ export default function SemesterPage() {
       <StatusBar backgroundColor="dark" />
 
       {/* navbar  */}
-      <View className="h-32 mt-4 rounded-b-3xl w-full flex items-center justify-center px-5">
-        <View className="flex flex-row items-center justify-center self-start gap-5">
+      <View style={styles.navbar}>
+        <View style={styles.navbarHeader}>
           <Pressable
-            className="flex items-center justify-center"
-            onPress={() => router.replace('/')}
+            style={styles.backButton}
+            onPress={() => router.replace("/")}
           >
-            <Text
-              className="font-bold"
-              style={{ fontSize: 30, marginBottom: 10 }}
-            >
-              {"←"}
-            </Text>
+            <Text style={styles.backButtonText}>{"←"}</Text>
           </Pressable>
-          <Text className="text-2xl font-bold">{name} Semester</Text>
+          <Text style={styles.navbarTitle}>{name} Semester</Text>
         </View>
-        <View className="flex flex-row items-center justify-center gap-10">
+        <View style={styles.navbarActions}>
           <Dropdown
-            style={{
-              height: 40,
-              width: 200,
-              paddingHorizontal: 15,
-              borderRadius: 10,
-              backgroundColor: "white",
-              borderWidth: 1,
-              borderColor: "gray",
-            }}
+            style={styles.dropdown}
             data={subjects}
             onChange={(item) => setSubject(item.value)}
             placeholder="Select Subject"
@@ -132,23 +105,17 @@ export default function SemesterPage() {
             valueField="name"
             value={subject}
           />
-          <Pressable
-            className="mb-5 h-[40px] px-10 flex items-center rounded-xl justify-center mt-5 bg-blue-500 "
-            onPress={handleSubmit}
-          >
-            <Text className="text-white text-xl font-semibold ">Save</Text>
+          <Pressable style={styles.saveButton} onPress={handleSubmit}>
+            <Text style={styles.saveButtonText}>Save</Text>
           </Pressable>
         </View>
       </View>
 
       {/* student list  */}
-      <View className="flex-1 w-full m-3 justify-center items-center">
+      <View style={styles.studentListContainer}>
         <FlatList
-          className="h-full w-full flex"
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          style={styles.studentList}
+          contentContainerStyle={styles.studentListContent}
           scrollEnabled
           data={students}
           renderItem={({ item }) => (
@@ -171,11 +138,9 @@ export const StudentItem: React.FC<
 > = ({ name, rollNumber, isSelected, onPress }) => (
   <Pressable
     onPress={onPress}
-    className="h-14 w-[320px] border border-gray-400 rounded-xl mt-2 flex flex-row items-center justify-between px-3"
     style={[
-      isSelected
-        ? { backgroundColor: "#8fee93" }
-        : { backgroundColor: "white" },
+      styles.studentItem,
+      isSelected ? styles.studentItemSelected : styles.studentItemUnselected,
     ]}
   >
     <Link
@@ -184,9 +149,9 @@ export const StudentItem: React.FC<
         params: { name: name },
       }}
     >
-      <View className="flex flex-row items-center justify-center ">
-        <Text className="text-xl underline">{rollNumber}.</Text>
-        <Text className="text-xl underline">{` ${name}`}</Text>
+      <View style={styles.studentItemContent}>
+        <Text style={styles.studentItemText}>{rollNumber}.</Text>
+        <Text style={styles.studentItemText}>{` ${name}`}</Text>
       </View>
     </Link>
   </Pressable>
@@ -196,8 +161,109 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f1eee9",
-    display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  navbar: {
+    height: 128,
+    marginTop: 16,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  navbarHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    gap: 20,
+  },
+  backButton: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButtonText: {
+    fontSize: 30,
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
+  navbarTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  navbarActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 40,
+  },
+  dropdown: {
+    height: 40,
+    width: 200,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "gray",
+  },
+  saveButton: {
+    marginBottom: 20,
+    height: 40,
+    paddingHorizontal: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#3b82f6",
+    borderRadius: 12,
+  },
+  saveButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  studentListContainer: {
+    flex: 1,
+    width: "100%",
+    margin: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  studentList: {
+    height: "100%",
+    width: "100%",
+  },
+  studentListContent: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  studentItem: {
+    height: 56,
+    width: 320,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 12,
+    marginTop: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
+  },
+  studentItemSelected: {
+    backgroundColor: "#8fee93",
+  },
+  studentItemUnselected: {
+    backgroundColor: "white",
+  },
+  studentItemContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  studentItemText: {
+    fontSize: 18,
+    textDecorationLine: "underline",
   },
 });
