@@ -69,7 +69,8 @@ export default function HomePage() {
             asChild
           >
             <Pressable style={styles.semesterBox}>
-              <View>
+              <Text style={{ position: "absolute", right: 10, bottom: 10, fontSize: 16, color: "#616161" }}>32 Students</Text>
+              <View >
                 <Text style={styles.semesterTitle}>{item}</Text>
                 <Text style={styles.semesterSubtitle}>Semester</Text>
               </View>
@@ -134,15 +135,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#f1f1f1",
   },
   semesterBox: {
+    height: 110,
+    borderTopWidth: 5,
     width: "100%",
     paddingVertical: 20,
-    borderRadius: 10,
+    borderRadius: 8,
     alignItems: "center",
   },
   semesterTitle: {
     backgroundColor: "#1f2937", // Tailwind bg-gray-800
-    paddingHorizontal: 15,
-    paddingVertical: 2,
+    paddingHorizontal: 25,
+    paddingVertical: 4,
     fontSize: 24,
     fontWeight: "bold",
     color: "white",
