@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   headerText: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
   },
   scrollView: {

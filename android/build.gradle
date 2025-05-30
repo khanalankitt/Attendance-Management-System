@@ -8,7 +8,8 @@ buildscript {
         targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
         kotlinVersion = '1.9.25'
 
-        ndkVersion = "26.1.10909125"
+        ndkVersion = "29.0.13113456"
+
     }
     repositories {
         google()
@@ -37,5 +38,16 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
+    }
+}
+
+
+subprojects {
+    configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'org.jetbrains.kotlin') {
+                details.useVersion "1.9.25"
+            }
+        }
     }
 }
