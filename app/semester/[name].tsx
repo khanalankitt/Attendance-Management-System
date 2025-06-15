@@ -126,6 +126,7 @@ export default function SemesterPage() {
             <StudentItem
               key={index}
               index={index}
+              subjects={subjects}
               name={item.name || ""}
               roll={item.roll || ""}
               isSelected={selectedRolls.includes(item.roll || "")}
@@ -140,8 +141,8 @@ export default function SemesterPage() {
 }
 
 export const StudentItem: React.FC<
-  { index: number; name: string; roll: string; isSelected: boolean; onPress: () => void }
-> = ({ index, name, roll, isSelected, onPress }) => (
+  { index: number; subjects: any; name: string; roll: string; isSelected: boolean; onPress: () => void }
+> = ({ index, name, subjects, roll, isSelected, onPress }) => (
 
   <Pressable
     onPress={onPress}
@@ -153,7 +154,7 @@ export const StudentItem: React.FC<
     <Link
       href={{
         pathname: "/student/[name]",
-        params: { name: name ?? "" },
+        params: { name: name ?? "", subjects: JSON.stringify(subjects ?? []) },
       }}
     >
       <View style={styles.studentItemContent}>

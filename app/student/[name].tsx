@@ -5,14 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DynamicStudent() {
   const { name } = useLocalSearchParams();
-
-  const demoAttendaceData = [
-    { subject: "IIT", value: "15" },
-    { subject: "C Programming", value: "14" },
-    { subject: "Physics", value: "13" },
-    { subject: "Math I", value: "14" },
-    { subject: "Microprocessor", value: "15" },
-  ];
+  const { subjects } = useLocalSearchParams();
+  const subjectList = subjects ? JSON.parse(subjects as string) : [];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,20 +28,20 @@ export default function DynamicStudent() {
       {/* Subject List */}
       <FlatList
         style={{ marginTop: 20 }}
-        data={demoAttendaceData}
+        data={subjectList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Link
             href={{
               pathname: "/report/[name]",
-              params: { name: name.toString(), subject: item.subject },
+              params: { name: name.toString(), subject: item.name },
             }}
             asChild
           >
             <Pressable style={styles.subjectCard}>
               <View style={styles.subjectContent}>
-                <Text style={styles.subjectText}>{item.subject}</Text>
-                <Text style={styles.subjectText}>{item.value}</Text>
+                <Text style={styles.subjectText}>{item.name}</Text>
+                <Text style={styles.subjectText}>{Math.floor(Math.random() * 50)}</Text>
               </View>
             </Pressable>
           </Link>
