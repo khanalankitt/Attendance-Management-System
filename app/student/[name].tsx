@@ -17,17 +17,23 @@ export default function DynamicStudent() {
   return (
     <SafeAreaView style={styles.container}>
       {/* Navbar */}
-      <View style={styles.navbarContainer}>
-        <View style={styles.navbarContent}>
-          <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backArrow}>←</Text>
-          </Pressable>
-          <Text style={styles.navbarTitle}>{name}</Text>
+      <View style={styles.navbar}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>{"←"}</Text>
+        </Pressable>
+        <View style={styles.navbarHeader}>
+          <Text numberOfLines={1}
+            ellipsizeMode="middle"
+            style={styles.navbarTitle}>{name}</Text>
         </View>
       </View>
 
       {/* Subject List */}
       <FlatList
+        style={{ marginTop: 20 }}
         data={demoAttendaceData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
@@ -58,40 +64,49 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  navbarContainer: {
-    height: 112, // h-28
+  navbar: {
+    height: 80,
+    marginTop: -5,
+    backgroundColor: "#1f2937",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
     width: "100%",
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  navbarContent: {
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: "flex-start",
-    gap: 20,
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  navbarHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   backButton: {
-    justifyContent: "center",
+    position: "absolute",
+    left: 25,
+    top: 0,
     alignItems: "center",
+    justifyContent: "center",
   },
-  backArrow: {
-    fontSize: 30,
+  backButtonText: {
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "white",
+    fontSize: 40,
   },
   navbarTitle: {
-    fontSize: 24,
+    textAlign: "center",
+    color: "white",
+    fontSize: 23,
     fontWeight: "bold",
+    maxWidth: 250, // adjust as needed
+
   },
   subjectCard: {
-    height: 80,
+    height: 70,
     width: "100%",
     backgroundColor: "#f1f1f1",
     borderRadius: 10,
-    marginTop: 12,
+    marginTop: 15,
     borderWidth: 1,
     borderColor: "#9ca3af", // border-gray-400
     justifyContent: "center",
@@ -106,6 +121,6 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   subjectText: {
-    fontSize: 20,
+    fontSize: 18,
   },
 });

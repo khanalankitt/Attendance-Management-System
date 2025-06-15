@@ -11,19 +11,28 @@ export default function EditDetails() {
       alert("New Attendance cannot be empty");
       return;
     }
-    alert(editedValue);
+    alert("Attendance updated succesfully");
     setEditedValue("");
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backButtonText}>{"←"}</Text>
-          </Pressable>
-          <Text style={styles.headerTitle}>{`${name} (${subject})`}</Text>
+      <View style={styles.navbar}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>{"←"}</Text>
+        </Pressable>
+        <View style={styles.navbarHeader}>
+          <Text numberOfLines={1}
+            ellipsizeMode="middle" style={styles.navbarTitle}>
+            {name}
+          </Text>
         </View>
       </View>
+      <Text style={styles.subjectTitle}>
+        {subject}
+      </Text>
 
       <View style={styles.mainContent}>
         <View style={styles.card}>
@@ -58,36 +67,50 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  header: {
-    height: 112,
+  navbar: {
+    height: 80,
+    marginTop: -5,
+    backgroundColor: "#1f2937",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
     width: "100%",
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  headerContent: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "flex-start",
-    gap: 20,
+    paddingHorizontal: 20,
+  },
+  navbarHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   backButton: {
-    justifyContent: "center",
+    position: "absolute",
+    left: 25,
+    top: 0,
     alignItems: "center",
+    justifyContent: "center",
   },
   backButtonText: {
-    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "white",
+    fontSize: 40,
   },
-  headerTitle: {
+  navbarTitle: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 23,
+    fontWeight: "bold",
+    maxWidth: 250,
+  },
+  subjectTitle: {
+    color: "#1f2937",
+    marginTop: 20,
     fontSize: 24,
     fontWeight: "bold",
   },
   mainContent: {
+    marginTop: 20,
     height: 350,
     width: "100%",
     justifyContent: "space-between",
@@ -100,38 +123,40 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
     borderWidth: 2,
-    borderColor: "#a0a0a0",
+    borderColor: "gray",
     borderRadius: 16,
     padding: 20,
     borderStyle: "dotted",
   },
   label: {
-    fontSize: 24,
+    width: "90%",
+    textAlign: "left",
+    fontSize: 22,
   },
   input: {
     width: "90%",
-    height: 56,
-    borderRadius: 16,
+    height: 50,
+    borderRadius: 10,
     fontSize: 20,
     paddingHorizontal: 20,
-    fontWeight: "600",
+    fontWeight: "semibold",
     backgroundColor: "#f1f1f1",
     borderWidth: 1,
-    borderColor: "#a0a0a0",
+    borderColor: "gray",
   },
   editableInput: {
     width: "90%",
-    height: 56,
-    borderRadius: 16,
+    height: 50,
+    borderRadius: 10,
     fontSize: 20,
     paddingHorizontal: 20,
-    fontWeight: "bold",
+    fontWeight: "semibold",
     backgroundColor: "#f1f1f1",
     borderWidth: 1,
-    borderColor: "#a0a0a0",
+    borderColor: "gray",
   },
   saveButton: {
-    height: 56,
+    height: 45,
     width: "90%",
     borderRadius: 16,
     justifyContent: "center",
@@ -140,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3b82f6",
   },
   saveButtonText: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
     color: "#ffffff",
   },

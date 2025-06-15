@@ -9,28 +9,34 @@ export default function Calendar() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backButtonText}>{"←"}</Text>
-          </Pressable>
-          <Text style={styles.headerTitle}>{`${name} (${subject})`}</Text>
+      <View style={styles.navbar}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>{"←"}</Text>
+        </Pressable>
+        <View style={styles.navbarHeader}>
+          <Text numberOfLines={1}
+            ellipsizeMode="middle" style={styles.navbarTitle}>
+            {name}
+          </Text>
         </View>
       </View>
+      <Text style={styles.subjectTitle}>
+        {subject}
+      </Text>
 
-      <View style={styles.calendarContainer}>
-        <Text style={styles.calendarTitle}>Present Days</Text>
-        <View style={styles.calendarWrapper}>
-          <RNCalendar
-            style={styles.calendar}
-            markedDates={{
-              [today]: { selected: true, selectedColor: "#5992e0" },
-              "2025-04-29": { selected: true, selectedColor: "green" },
-              "2025-04-12": { selected: true, selectedColor: "green" },
-              "2025-04-18": { selected: true, selectedColor: "green" },
-            }}
-          />
-        </View>
+      <View >
+        <RNCalendar
+          style={styles.calendar}
+          markedDates={{
+            [today]: { selected: true, selectedColor: "#5992e0" },
+            "2025-06-29": { selected: true, selectedColor: "green" },
+            "2025-06-12": { selected: true, selectedColor: "green" },
+            "2025-06-18": { selected: true, selectedColor: "green" },
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -43,57 +49,53 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  header: {
-    height: 112, // 28 * 4
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    width: "100%",
+  subjectTitle: {
+    color: "#1f2937",
     marginTop: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
+    fontSize: 24,
+    fontWeight: "bold",
   },
-  headerContent: {
+  navbar: {
+    height: 80,
+    marginTop: 26, //exact dont touch
+    backgroundColor: "#1f2937",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "flex-start",
-    gap: 20,
+    paddingHorizontal: 20,
+  },
+  navbarHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   backButton: {
-    justifyContent: "center",
+    position: "absolute",
+    left: 25,
+    top: 0,
     alignItems: "center",
+    justifyContent: "center",
   },
   backButtonText: {
-    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "white",
+    fontSize: 40,
   },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  calendarContainer: {
-    height: 300,
-    width: "100%",
-  },
-  calendarTitle: {
-    fontSize: 24,
+  navbarTitle: {
     textAlign: "center",
+    color: "white",
+    fontSize: 23,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: "#4b5563", // gray-700
-  },
-  calendarWrapper: {
-    width: "100%",
-    padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    maxWidth: 250,
   },
   calendar: {
+    marginTop: 20,
     width: 350,
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: "gray",
+    borderColor: "#1f2937",
   },
 });

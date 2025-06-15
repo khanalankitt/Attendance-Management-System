@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   navbarTitle: {
     textAlign: "center",
     color: "white",
-    fontSize: 24,
+    fontSize: 23,
     fontWeight: "bold",
   },
   navbarActions: {

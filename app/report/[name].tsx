@@ -7,14 +7,23 @@ export default function StudentReport() {
   const { name, subject } = useLocalSearchParams();
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backButtonText}>{"←"}</Text>
-          </Pressable>
-          <Text style={styles.headerText}>{`${name} (${subject})`}</Text>
+      <View style={styles.navbar}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>{"←"}</Text>
+        </Pressable>
+        <View style={styles.navbarHeader}>
+          <Text numberOfLines={1}
+            ellipsizeMode="middle" style={styles.navbarTitle}>
+            {name}
+          </Text>
         </View>
       </View>
+      <Text style={styles.subjectTitle}>
+        {subject}
+      </Text>
 
       <View style={styles.cardContainer}>
         <Link
@@ -72,31 +81,47 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  header: {
-    height: 112,
+  navbar: {
+    height: 80,
+    marginTop: -5,
+    backgroundColor: "#1f2937",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
     width: "100%",
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    marginTop: 4,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  headerRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "flex-start",
-    gap: 20,
+    paddingHorizontal: 20,
+  },
+  navbarHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   backButton: {
-    justifyContent: "center",
+    position: "absolute",
+    left: 25,
+    top: 0,
     alignItems: "center",
+    justifyContent: "center",
   },
   backButtonText: {
-    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "white",
+    fontSize: 40,
+  },
+  navbarTitle: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 23,
+    fontWeight: "bold",
+    maxWidth: 250,
+  },
+  subjectTitle: {
+    color: "#1f2937",
+    marginTop: 20,
+    fontSize: 24,
+    fontWeight: "bold",
   },
   headerText: {
     fontSize: 24,
@@ -117,7 +142,7 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: "#d1d1d1",
+    borderColor: "gray",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -163,7 +188,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   editButton: {
-    height: 56,
+    height: 50,
     width: "90%",
     borderRadius: 16,
     justifyContent: "center",
@@ -172,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3b82f6",
   },
   editButtonText: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
     color: "#ffffff",
   },
