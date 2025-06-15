@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Pressable,
   StatusBar,
@@ -34,8 +35,6 @@ export default function SemesterPage() {
       alert("Please select a subject");
       return;
     }
-    console.log("Selected Rolls:", selectedRolls);
-
     alert("Attendance saved successfully");
     setSelectedRolls([]);
   };
@@ -62,6 +61,28 @@ export default function SemesterPage() {
     };
     fetchData();
   }, [name]);
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="dark" />
+
+        {/* navbar  */}
+        <View style={styles.navbar}>
+          <Pressable
+            style={styles.backButton}
+            onPress={() => router.replace("/")}
+          >
+            <Text style={styles.backButtonText}>{"←"}</Text>
+          </Pressable>
+          <View style={styles.navbarHeader}>
+            <Text style={styles.navbarTitle}>{name} Semester</Text>
+          </View>
+        </View>
+        <ActivityIndicator size="large" style={{ marginTop: 100 }} color="#1f2937" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
