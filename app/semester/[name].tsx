@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Pressable,
@@ -10,66 +10,23 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, useLocalSearchParams, router } from "expo-router";
 import { Dropdown } from "react-native-element-dropdown";
-
-interface StudentData {
-  name: string;
-  rollNumber: number;
-}
+import { Student } from "@/types/types";
 
 export default function SemesterPage() {
   const { name } = useLocalSearchParams();
-  const students = [
-    { name: "Ankit", rollNumber: 1 },
-    { name: "Bhavesh", rollNumber: 2 },
-    { name: "Chirag", rollNumber: 3 },
-    { name: "Deepak", rollNumber: 4 },
-    { name: "Esha", rollNumber: 5 },
-    { name: "Farhan", rollNumber: 6 },
-    { name: "Gaurav", rollNumber: 7 },
-    { name: "Harsh", rollNumber: 8 },
-    { name: "Isha", rollNumber: 9 },
-    { name: "Jatin", rollNumber: 10 },
-    { name: "Karan", rollNumber: 11 },
-    { name: "Lakshay", rollNumber: 12 },
-    { name: "Manish", rollNumber: 13 },
-    { name: "Nisha", rollNumber: 14 },
-    { name: "Om", rollNumber: 15 },
-    { name: "Pooja", rollNumber: 16 },
-    { name: "Qasim", rollNumber: 17 },
-    { name: "Ravi", rollNumber: 18 },
-    { name: "Sakshi", rollNumber: 19 },
-    { name: "Tina", rollNumber: 20 },
-    { name: "Umesh", rollNumber: 21 },
-    { name: "Vikas", rollNumber: 22 },
-    { name: "Wahid", rollNumber: 23 },
-    { name: "Xena", rollNumber: 24 },
-    { name: "Yash", rollNumber: 25 },
-    { name: "Zara", rollNumber: 26 },
-    { name: "Amit", rollNumber: 27 },
-    { name: "Bina", rollNumber: 28 },
-    { name: "Chetan", rollNumber: 29 },
-    { name: "Divya", rollNumber: 30 },
-    { name: "Ekta", rollNumber: 31 },
-    { name: "Faisal", rollNumber: 32 },
-    { name: "Gita", rollNumber: 33 },
-    { name: "Hemant", rollNumber: 34 },
-    { name: "Irfan", rollNumber: 35 },
-  ];
-  const [selectedRollNumbers, setSelectedRollNumbers] = useState<number[]>([]);
-  const [subject, setSubject] = useState("");
-  const subjects = [
-    { name: "IIT", value: "IIT" },
-    { name: "C Programming", value: "C Programming" },
-    { name: "Physics", value: "Physics" },
-    { name: "Math I", value: "Math I" },
-    { name: "Microprocessor", value: "Microprocessor" },
-  ];
+  const [students, setStudents] = useState<Student[]>([]);
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const toggleSelection = (rollNumber: number) => {
-    setSelectedRollNumbers((prevSelected) =>
-      prevSelected.includes(rollNumber)
-        ? prevSelected.filter((num) => num !== rollNumber)
-        : [...prevSelected, rollNumber]
+  const [subject, setSubject] = useState("");
+
+  const [selectedRolls, setSelectedRolls] = useState<string[]>([]);
+
+  const toggleSelection = (roll: string) => {
+    setSelectedRolls((prevSelected) =>
+      prevSelected.includes(roll)
+        ? prevSelected.filter((r) => r !== roll)
+        : [...prevSelected, roll]
     );
   };
   const handleSubmit = () => {
@@ -77,38 +34,64 @@ export default function SemesterPage() {
       alert("Please select a subject");
       return;
     }
+    console.log("Selected Rolls:", selectedRolls);
+
     alert("Attendance saved successfully");
-    setSelectedRollNumbers([]);
+    setSelectedRolls([]);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("http://192.168.100.162:3300/getStudents", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ semester: name })
+        });
+        const data = await response.json();
+        setStudents(data.students)
+        setSubjects(data.subjects);
+      } catch (error) {
+        console.error("Error fetching semester data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [name]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="dark" />
 
       {/* navbar  */}
       <View style={styles.navbar}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => router.replace("/")}
+        >
+          <Text style={styles.backButtonText}>{"←"}</Text>
+        </Pressable>
         <View style={styles.navbarHeader}>
-          <Pressable
-            style={styles.backButton}
-            onPress={() => router.replace("/")}
-          >
-            <Text style={styles.backButtonText}>{"←"}</Text>
-          </Pressable>
           <Text style={styles.navbarTitle}>{name} Semester</Text>
         </View>
-        <View style={styles.navbarActions}>
-          <Dropdown
-            style={styles.dropdown}
-            data={subjects}
-            onChange={(item) => setSubject(item.value)}
-            placeholder="Select Subject"
-            labelField="name"
-            valueField="name"
-            value={subject}
-          />
-          <Pressable style={styles.saveButton} onPress={handleSubmit}>
-            <Text style={styles.saveButtonText}>Save</Text>
-          </Pressable>
-        </View>
+      </View>
+      <View style={styles.navbarActions}>
+        <Dropdown
+          style={styles.dropdown}
+          data={subjects}
+          onChange={(item) => setSubject(item.value)}
+          placeholder="Select Subject"
+          labelField="name"
+          valueField="name"
+          value={subject}
+        />
+        <Pressable style={styles.saveButton} onPress={handleSubmit}>
+          <Text style={styles.saveButtonText}>Save</Text>
+        </Pressable>
       </View>
 
       {/* student list  */}
@@ -118,14 +101,16 @@ export default function SemesterPage() {
           contentContainerStyle={styles.studentListContent}
           scrollEnabled
           data={students}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <StudentItem
-              key={item.rollNumber}
-              name={item.name}
-              rollNumber={item.rollNumber}
-              isSelected={selectedRollNumbers.includes(item.rollNumber)}
-              onPress={() => toggleSelection(item.rollNumber)}
+              key={index}
+              index={index}
+              name={item.name || ""}
+              roll={item.roll || ""}
+              isSelected={selectedRolls.includes(item.roll || "")}
+              onPress={() => toggleSelection(item.roll || "")}
             />
+
           )}
         />
       </View>
@@ -134,8 +119,9 @@ export default function SemesterPage() {
 }
 
 export const StudentItem: React.FC<
-  StudentData & { isSelected: boolean; onPress: () => void }
-> = ({ name, rollNumber, isSelected, onPress }) => (
+  { index: number; name: string; roll: string; isSelected: boolean; onPress: () => void }
+> = ({ index, name, roll, isSelected, onPress }) => (
+
   <Pressable
     onPress={onPress}
     style={[
@@ -146,11 +132,11 @@ export const StudentItem: React.FC<
     <Link
       href={{
         pathname: "/student/[name]",
-        params: { name: name },
+        params: { name: name ?? "" },
       }}
     >
       <View style={styles.studentItemContent}>
-        <Text style={styles.studentItemText}>{rollNumber}.</Text>
+        <Text style={{ fontSize: 18 }}>{index + 1}. </Text>
         <Text style={styles.studentItemText}>{` ${name}`}</Text>
       </View>
     </Link>
@@ -165,11 +151,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navbar: {
-    height: 128,
-    marginTop: 16,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
+    height: 80,
+    marginTop: -5,
+    backgroundColor: "#1f2937",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
     width: "100%",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
@@ -178,30 +166,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "flex-start",
-    gap: 20,
   },
   backButton: {
+    position: "absolute",
+    left: 25,
+    top: 0,
     alignItems: "center",
     justifyContent: "center",
   },
   backButtonText: {
-    fontSize: 30,
-    marginBottom: 10,
     fontWeight: "bold",
+    color: "white",
+    fontSize: 40,
   },
   navbarTitle: {
+    textAlign: "center",
+    color: "white",
     fontSize: 24,
     fontWeight: "bold",
   },
   navbarActions: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 40,
+    justifyContent: "space-around",
   },
   dropdown: {
-    height: 40,
+    height: 45,
     width: 200,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -212,16 +203,16 @@ const styles = StyleSheet.create({
   saveButton: {
     marginBottom: 20,
     height: 40,
-    paddingHorizontal: 40,
+    paddingHorizontal: 22,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
     backgroundColor: "#3b82f6",
-    borderRadius: 12,
+    borderRadius: 8,
   },
   saveButtonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "600",
   },
   studentListContainer: {

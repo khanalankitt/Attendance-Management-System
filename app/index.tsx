@@ -27,7 +27,6 @@ export default function HomePage() {
     }
     prepare();
     onLayoutRootView();
-
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
