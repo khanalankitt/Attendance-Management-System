@@ -30,12 +30,13 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="semester/[name]" options={{headerShown:false}}/>
-        <Stack.Screen name="student/[name]" options={{headerShown:false}}/>
-        <Stack.Screen name="report/[name]" options={{headerShown:false}}/>
-        <Stack.Screen name="edit/editDetails" options={{headerShown:false}}/>
-        <Stack.Screen name="calendar/calendar" options={{headerShown:false}}/>
+        <Stack.Screen name="semester/[name]" options={{ headerShown: false }} />
+        <Stack.Screen name="student/[name]" options={{ headerShown: false }} />
+        <Stack.Screen name="report/[name]" options={{ headerShown: false }} />
+        <Stack.Screen name="edit/editDetails" options={{ headerShown: false }} />
+        <Stack.Screen name="calendar/calendar" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="dark" />
